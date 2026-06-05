@@ -1,0 +1,167 @@
+[
+  {
+    "disease_id": "hypertension",
+    "total_responses": 4823,
+    "questions": [
+      {
+        "id": "q1",
+        "label": { "en": "At what age were you diagnosed?", "de": "In welchem Alter wurden Sie diagnostiziert?", "es": "¿A qué edad fue diagnosticado?" },
+        "options": [
+          { "key": "under_30", "label": { "en": "Under 30", "de": "Unter 30", "es": "Menos de 30" }, "percent": 8 },
+          { "key": "30_50", "label": { "en": "30–50 years", "de": "30–50 Jahre", "es": "30–50 años" }, "percent": 38 },
+          { "key": "over_50", "label": { "en": "Over 50", "de": "Über 50", "es": "Más de 50" }, "percent": 54 }
+        ]
+      },
+      {
+        "id": "q2",
+        "label": { "en": "How do you manage it?", "de": "Wie behandeln Sie es?", "es": "¿Cómo lo controla?" },
+        "options": [
+          { "key": "medication", "label": { "en": "Medication only", "de": "Nur Medikamente", "es": "Solo medicación" }, "percent": 45 },
+          { "key": "lifestyle", "label": { "en": "Lifestyle changes", "de": "Lebensstiländerung", "es": "Cambios de estilo de vida" }, "percent": 22 },
+          { "key": "combined", "label": { "en": "Both combined", "de": "Beides kombiniert", "es": "Ambos combinados" }, "percent": 33 }
+        ]
+      },
+      {
+        "id": "q3",
+        "label": { "en": "Impact on daily life?", "de": "Auswirkung auf den Alltag?", "es": "¿Impacto en la vida diaria?" },
+        "options": [
+          { "key": "high", "label": { "en": "High impact", "de": "Hohe Auswirkung", "es": "Alto impacto" }, "percent": 29 },
+          { "key": "medium", "label": { "en": "Medium impact", "de": "Mittlere Auswirkung", "es": "Impacto medio" }, "percent": 47 },
+          { "key": "low", "label": { "en": "Low impact", "de": "Geringe Auswirkung", "es": "Bajo impacto" }, "percent": 24 }
+        ]
+      }
+    ]
+  },
+  {
+    "disease_id": "type2-diabetes",
+    "total_responses": 6142,
+    "questions": [
+      {
+        "id": "q1",
+        "label": { "en": "How long have you had diabetes?", "de": "Wie lange haben Sie Diabetes?", "es": "¿Cuánto tiempo lleva con diabetes?" },
+        "options": [
+          { "key": "0_2", "label": { "en": "0–2 years", "de": "0–2 Jahre", "es": "0–2 años" }, "percent": 18 },
+          { "key": "2_10", "label": { "en": "2–10 years", "de": "2–10 Jahre", "es": "2–10 años" }, "percent": 45 },
+          { "key": "over_10", "label": { "en": "Over 10 years", "de": "Über 10 Jahre", "es": "Más de 10 años" }, "percent": 37 }
+        ]
+      },
+      {
+        "id": "q2",
+        "label": { "en": "Primary treatment method?", "de": "Primäre Behandlungsmethode?", "es": "¿Método de tratamiento principal?" },
+        "options": [
+          { "key": "insulin", "label": { "en": "Insulin injections", "de": "Insulinspritzen", "es": "Inyecciones de insulina" }, "percent": 28 },
+          { "key": "oral", "label": { "en": "Oral medication", "de": "Orale Medikamente", "es": "Medicación oral" }, "percent": 51 },
+          { "key": "diet", "label": { "en": "Diet & exercise only", "de": "Diät & Sport", "es": "Solo dieta y ejercicio" }, "percent": 21 }
+        ]
+      },
+      {
+        "id": "q3",
+        "label": { "en": "How easy is it to access care?", "de": "Wie einfach ist der Zugang zur Pflege?", "es": "¿Qué tan fácil es acceder a la atención?" },
+        "options": [
+          { "key": "easy", "label": { "en": "Easy", "de": "Einfach", "es": "Fácil" }, "percent": 41 },
+          { "key": "moderate", "label": { "en": "Moderate", "de": "Mäßig", "es": "Moderado" }, "percent": 35 },
+          { "key": "difficult", "label": { "en": "Difficult", "de": "Schwierig", "es": "Difícil" }, "percent": 24 }
+        ]
+      }
+    ]
+  },
+  {
+    "disease_id": "influenza",
+    "total_responses": 2918,
+    "questions": [
+      {
+        "id": "q1",
+        "label": { "en": "How often do you get the flu?", "de": "Wie oft bekommen Sie die Grippe?", "es": "¿Con qué frecuencia tiene gripe?" },
+        "options": [
+          { "key": "rarely", "label": { "en": "Rarely (every few years)", "de": "Selten (alle paar Jahre)", "es": "Raramente (cada pocos años)" }, "percent": 39 },
+          { "key": "yearly", "label": { "en": "About once a year", "de": "Etwa einmal im Jahr", "es": "Aproximadamente una vez al año" }, "percent": 44 },
+          { "key": "multiple", "label": { "en": "Multiple times a year", "de": "Mehrmals im Jahr", "es": "Varias veces al año" }, "percent": 17 }
+        ]
+      },
+      {
+        "id": "q2",
+        "label": { "en": "Do you get vaccinated annually?", "de": "Lassen Sie sich jährlich impfen?", "es": "¿Se vacuna anualmente?" },
+        "options": [
+          { "key": "yes", "label": { "en": "Yes, every year", "de": "Ja, jedes Jahr", "es": "Sí, cada año" }, "percent": 48 },
+          { "key": "sometimes", "label": { "en": "Sometimes", "de": "Manchmal", "es": "A veces" }, "percent": 27 },
+          { "key": "no", "label": { "en": "No", "de": "Nein", "es": "No" }, "percent": 25 }
+        ]
+      },
+      {
+        "id": "q3",
+        "label": { "en": "Average recovery time?", "de": "Durchschnittliche Genesungszeit?", "es": "¿Tiempo promedio de recuperación?" },
+        "options": [
+          { "key": "less_week", "label": { "en": "Less than a week", "de": "Weniger als eine Woche", "es": "Menos de una semana" }, "percent": 53 },
+          { "key": "1_2_weeks", "label": { "en": "1–2 weeks", "de": "1–2 Wochen", "es": "1–2 semanas" }, "percent": 38 },
+          { "key": "over_2weeks", "label": { "en": "Over 2 weeks", "de": "Über 2 Wochen", "es": "Más de 2 semanas" }, "percent": 9 }
+        ]
+      }
+    ]
+  },
+  {
+    "disease_id": "asthma",
+    "total_responses": 3571,
+    "questions": [
+      {
+        "id": "q1",
+        "label": { "en": "How long have you had asthma?", "de": "Wie lange haben Sie Asthma?", "es": "¿Cuánto tiempo lleva con asma?" },
+        "options": [
+          { "key": "childhood", "label": { "en": "Since childhood", "de": "Seit der Kindheit", "es": "Desde la infancia" }, "percent": 62 },
+          { "key": "adult", "label": { "en": "Developed as adult", "de": "Als Erwachsener entwickelt", "es": "Desarrollado como adulto" }, "percent": 38 }
+        ]
+      },
+      {
+        "id": "q2",
+        "label": { "en": "Primary trigger?", "de": "Primärer Auslöser?", "es": "¿Desencadenante principal?" },
+        "options": [
+          { "key": "allergens", "label": { "en": "Allergens (pollen/dust)", "de": "Allergene (Pollen/Staub)", "es": "Alérgenos (polen/polvo)" }, "percent": 44 },
+          { "key": "exercise", "label": { "en": "Exercise", "de": "Sport", "es": "Ejercicio" }, "percent": 21 },
+          { "key": "air", "label": { "en": "Air pollution", "de": "Luftverschmutzung", "es": "Contaminación del aire" }, "percent": 35 }
+        ]
+      },
+      {
+        "id": "q3",
+        "label": { "en": "Inhaler usage frequency?", "de": "Häufigkeit der Inhalatornutzung?", "es": "¿Frecuencia de uso del inhalador?" },
+        "options": [
+          { "key": "daily", "label": { "en": "Daily", "de": "Täglich", "es": "Diariamente" }, "percent": 33 },
+          { "key": "weekly", "label": { "en": "Weekly", "de": "Wöchentlich", "es": "Semanalmente" }, "percent": 41 },
+          { "key": "rarely", "label": { "en": "Rarely", "de": "Selten", "es": "Raramente" }, "percent": 26 }
+        ]
+      }
+    ]
+  },
+  {
+    "disease_id": "depression",
+    "total_responses": 5284,
+    "questions": [
+      {
+        "id": "q1",
+        "label": { "en": "Are you currently receiving treatment?", "de": "Erhalten Sie derzeit eine Behandlung?", "es": "¿Está recibiendo tratamiento actualmente?" },
+        "options": [
+          { "key": "therapy_meds", "label": { "en": "Therapy + medication", "de": "Therapie + Medikamente", "es": "Terapia + medicación" }, "percent": 38 },
+          { "key": "therapy", "label": { "en": "Therapy only", "de": "Nur Therapie", "es": "Solo terapia" }, "percent": 29 },
+          { "key": "meds", "label": { "en": "Medication only", "de": "Nur Medikamente", "es": "Solo medicación" }, "percent": 15 },
+          { "key": "none", "label": { "en": "No treatment", "de": "Keine Behandlung", "es": "Sin tratamiento" }, "percent": 18 }
+        ]
+      },
+      {
+        "id": "q2",
+        "label": { "en": "Impact on work/study?", "de": "Auswirkung auf Arbeit/Studium?", "es": "¿Impacto en el trabajo/estudio?" },
+        "options": [
+          { "key": "severe", "label": { "en": "Unable to work", "de": "Arbeitsunfähig", "es": "Incapaz de trabajar" }, "percent": 22 },
+          { "key": "moderate", "label": { "en": "Significant impact", "de": "Erhebliche Auswirkung", "es": "Impacto significativo" }, "percent": 45 },
+          { "key": "mild", "label": { "en": "Mild impact", "de": "Leichte Auswirkung", "es": "Impacto leve" }, "percent": 33 }
+        ]
+      },
+      {
+        "id": "q3",
+        "label": { "en": "How long to get a diagnosis?", "de": "Wie lange bis zur Diagnose?", "es": "¿Cuánto tardó en obtener un diagnóstico?" },
+        "options": [
+          { "key": "quick", "label": { "en": "Under 6 months", "de": "Unter 6 Monate", "es": "Menos de 6 meses" }, "percent": 31 },
+          { "key": "year", "label": { "en": "6 months – 2 years", "de": "6 Monate – 2 Jahre", "es": "6 meses – 2 años" }, "percent": 39 },
+          { "key": "long", "label": { "en": "Over 2 years", "de": "Über 2 Jahre", "es": "Más de 2 años" }, "percent": 30 }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,83 @@
+{
+  "id": "influenza",
+  "slug": {
+    "en": "influenza",
+    "de": "grippe",
+    "es": "gripe"
+  },
+  "icd11_code": "1E32",
+  "medlineplus_url": "https://medlineplus.gov/flu.html",
+  "category": "infectious",
+  "severity": "mild",
+  "prevalence_percent": 8,
+  "tags": [
+    "seasonal",
+    "vaccine-preventable",
+    "common"
+  ],
+  "name": {
+    "en": "Influenza (Flu)",
+    "de": "Grippe (Influenza)",
+    "es": "Gripe (Influenza)"
+  },
+  "summary": {
+    "en": "Influenza (flu) is a contagious respiratory illness caused by influenza viruses that infect the nose, throat, and sometimes the lungs. It can cause mild to severe illness, and at times can lead to death. The best way to prevent flu is by getting a flu vaccine each year. Flu season in the Northern Hemisphere typically occurs in autumn and winter.",
+    "de": "Grippe (Influenza) ist eine ansteckende Atemwegserkrankung, die durch Influenzaviren verursacht wird, die Nase, Rachen und manchmal die Lungen infizieren. Sie kann leichte bis schwere Erkrankungen verursachen. Die beste Vorbeugung ist eine jährliche Grippeimpfung.",
+    "es": "La gripe (influenza) es una enfermedad respiratoria contagiosa causada por virus de la influenza que infectan la nariz, la garganta y, a veces, los pulmones. Puede causar enfermedades de leves a graves. La mejor manera de prevenirla es mediante la vacunación anual."
+  },
+  "symptoms": {
+    "en": [
+      "Fever",
+      "Cough",
+      "Sore throat",
+      "Body aches",
+      "Headache",
+      "Chills and fatigue"
+    ],
+    "de": [
+      "Fieber",
+      "Husten",
+      "Halsschmerzen",
+      "Körperschmerzen",
+      "Kopfschmerzen",
+      "Schüttelfrost und Müdigkeit"
+    ],
+    "es": [
+      "Fiebre",
+      "Tos",
+      "Dolor de garganta",
+      "Dolores musculares",
+      "Dolor de cabeza",
+      "Escalofríos y fatiga"
+    ]
+  },
+  "routing_departments": [
+    {
+      "department_code": "M",
+      "is_primary": true,
+      "clinical_role": {
+        "en": "General symptom management, supportive care, and antiviral prescription.",
+        "de": "Allgemeines Symptommanagement, unterstützende Pflege und antivirale Verschreibung.",
+        "es": "Manejo general de síntomas, atención de apoyo y prescripción de antivirales."
+      }
+    },
+    {
+      "department_code": "1",
+      "is_primary": false,
+      "clinical_role": {
+        "en": "Management of severe cases, immune system response monitoring, and viral screening.",
+        "de": "Behandlung schwerer Fälle, Überwachung der Reaktion des Immunsystems und virales Screening.",
+        "es": "Manejo de casos graves, monitoreo de respuesta del sistema inmunológico y cribado viral."
+      }
+    },
+    {
+      "department_code": "K",
+      "is_primary": false,
+      "clinical_role": {
+        "en": "Specialized pediatric triage, children's dosage monitoring, and flu complications prevention.",
+        "de": "Spezialisierte pädiatrische Triage, Überwachung der Dosierung bei Kindern und Vorbeugung von Grippekomplikationen.",
+        "es": "Triaje pediátrico especializado, monitoreo de dosis infantil y prevención de complicaciones de la gripe."
+      }
+    }
+  ]
+}

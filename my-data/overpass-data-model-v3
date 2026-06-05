@@ -1,0 +1,236 @@
+Medimapia_Health_Data_v3:
+
+  # ── Mimari Özeti ─────────────────────────────────────────────────────────────
+  #
+  # v3'te şehir (city) ve bölge/eyalet (state) kavramları ayrıldı:
+  #
+  #   STATE  → Veri çekme birimi. Overpass ve Eurostat bu seviyede çalışır.
+  #             Wikidata ID + stateAdminLevel ile OSM sınırı belirlenir.
+  #             cityAdminLevel ile state içindeki şehirler otomatik türetilir.
+  #
+  #   CITY   → Frontend birimi. Kullanıcı bu seviyede şehir seçer.
+  #             Lat/lon merkez koordinatı + radiusKm ile haversine filtresi yapılır.
+  #             Auto-generated (Overpass'tan) veya manual olabilir.
+  #
+  # Facility → City ataması artık f.city string alanına değil,
+  # tamamen haversine mesafesine dayanır.
+  # getFacilitiesByCity(citySlug) = city.lat/lon'dan radiusKm içindeki tüm tesisler.
+
+  # ── Dosya Yapısı ─────────────────────────────────────────────────────────────
+  config_files:
+    states:   data/config/states.json   # State/bölge konfigürasyonu
+    cities:   data/config/cities.json   # Şehir listesi (frontend + haversine)
+
+  cache_files:
+    eurostat: data/cache/eurostat.json  # Key: state.name
+    overpass: data/cache/overpass.json  # Key: state.name
+
+  facility_file: data/facilities.json   # Merge edilmiş OSM + manuel tesisler
+
+  # ── StateConfig (data/config/states.json) ────────────────────────────────────
+  state_config_fields:
+    name:                 string          # "Catalonia"
+    slug:                 string          # "catalonia"
+    country:              string          # "ES"
+    countryName:          string          # "Spain"
+    region:               europe|americas
+    eurostatGeo:          string | null   # "ES51" (NUTS2 kodu)
+    eurostatRegionLabel:  string | null   # "Catalonia region"
+    wikidataId:           string?         # "Q5705"
+    stateAdminLevel:      number?         # 4 (state sınır sorgusu için)
+    cityAdminLevel:       number?         # 6 (şehir auto-generate için)
+
+  # ── CityConfig (data/config/cities.json) ─────────────────────────────────────
+  city_config_fields:
+    name:          string          # "Barcelona"
+    slug:          string          # "barcelona"
+    country:       string          # "ES"
+    countryName:   string          # "Spain"
+    region:        europe|americas
+    lat:           number          # 41.3851
+    lon:           number          # 2.1734
+    radiusKm:      number          # Haversine filtre yarıçapı
+    stateSlug:     string | null   # "catalonia" — Eurostat miras alımı için
+    source:        manual|auto     # Auto = Overpass'tan türetildi
+    coordsLocked:  boolean         # true ise Overpass güncellemesi lat/lon'a dokunmaz
+    osm_id:        number | null   # Auto şehirler için OSM relation ID
+
+  # ── Admin Level Rehberi ───────────────────────────────────────────────────────
+  admin_levels:
+    Spain:
+      4:  Özerk topluluklar (Catalonia, Andalusia...)   → stateAdminLevel
+      6:  İller (Barcelona, Girona, Lleida, Tarragona)  → cityAdminLevel (önerilen)
+      8:  Belediyeler (~946 Katalunya'da)               → çok granüler, dikkatli kullan
+    Germany:
+      4:  Eyaletler (Berlin, Bayern...)                 → stateAdminLevel
+      4:  Berlin aynı zamanda şehir (özel durum)        → cityAdminLevel=4
+      6:  Kreise (ilçeler)
+      8:  Alt-belediyeler (çok küçük, tavsiye edilmez)
+    UK:
+      - Admin level standardize değil, wikidataId ile sorgula
+    USA:
+      - Eurostat yok (NUTS2 kapsama alanı dışı)
+      - wikidataId + stateAdminLevel ile Overpass çekimi yapılabilir
+
+  # ── Sorgu Stratejisi ─────────────────────────────────────────────────────────
+  query_strategy:
+    priority:
+      1_wikidata_adminlevel:
+        selector: area["wikidata"="Q_KOD"]["admin_level"="stateAdminLevel"]
+        note: En hızlı ve kesin. İki tag filtresi Overpass indexini daraltır.
+
+      2_wikidata_only:
+        selector: area["wikidata"="Q_KOD"]
+        note: stateAdminLevel girilmemişse kullanılır
+
+      3_adminlevel_only:
+        selector: area["name"="StateName"]["admin_level"="stateAdminLevel"]
+        note: wikidataId girilmemişse kullanılır
+
+      4_radius_fallback:
+        selector: around:20km,lat,lng
+        note: Nominatim geocoding ile fallback koordinat
+
+  # ── City Auto-Generation ──────────────────────────────────────────────────────
+  city_auto_generation:
+    trigger: Overpass Update butonu (cityAdminLevel tanımlıysa)
+    query: |
+      area["wikidata"="Q5705"]->.searchArea;
+      relation["admin_level"="6"](area.searchArea);
+      out center tags;
+    result: OSM relation centroid → cities.json'a eklenir
+    merge_rules:
+      - osm_id eşleşiyorsa + source=auto + coordsLocked=false → centroid güncellenir
+      - osm_id eşleşiyorsa + coordsLocked=true → hiç dokunulmaz (manuel düzeltilmiş)
+      - Yeni relation → yeni city eklenir (source=auto, coordsLocked=false)
+    note: >
+      Berlin özel durumu: stateAdminLevel=4, cityAdminLevel=4 → Berlin tek şehir olarak döner.
+      Katalunya için cityAdminLevel=6 → 4 il: Barcelona, Girona, Lleida, Tarragona.
+
+  # ── Haversine Filtresi ────────────────────────────────────────────────────────
+  haversine_filtering:
+    function: getFacilitiesByCity(citySlug) in src/lib/data.ts
+    logic: |
+      city = getCityConfig(citySlug)
+      return facilities where haversineKm(city.lat, city.lon, f.lat, f.lng) <= city.radiusKm
+    note: >
+      f.city string alanı artık filtreleme için kullanılmıyor.
+      f.city = display label (OSM addr:city tag'inden veya state adı fallback).
+      Haversine, farklı state'lerden çekilen tesisleri doğru şehre otomatik atar.
+
+  affected_functions:
+    - getFacilitiesByCity(citySlug)        → haversine
+    - getDiseasesForCity(citySlug)         → getFacilitiesByCity çağırır
+    - getIcdChaptersByCity(citySlug)       → getFacilitiesByCity çağırır
+    - getFacilitiesByDiseaseAndCity(id, citySlug) → getFacilitiesByCity + ICD filtre
+
+  # ── Eurostat Miras Alımı ──────────────────────────────────────────────────────
+  eurostat_inheritance:
+    source: states.json → eurostatGeo (NUTS2 kodu)
+    cache_key: state.name  # "Catalonia", "Berlin"
+    city_lookup: |
+      cityConfig.stateSlug → getStateConfig(stateSlug).name → fetchCityHealthStats(stateName)
+    note: >
+      NUTS2 kodları bölge seviyesinde — tek şehir için değil.
+      Barcelona ve Girona ikisi de ES51 (Katalunya) verisini gösterir.
+      Eurostat bölümü connectors sayfasında state seviyesinde güncellenir.
+
+  # ── Koordinat Kilidi ──────────────────────────────────────────────────────────
+  coords_locking:
+    trigger: CityCoordInput bileşeninden lat/lon düzenlenince
+    action: updateCityCoords(slug, lat, lon) → coordsLocked=true yazılır
+    protection: Sonraki Overpass güncellemelerinde auto şehirlerin koordinatları güncellenmez
+    visual: Connectors sayfasında 🔒 simgesi gösterilir
+    manual_unlock: cities.json'da coordsLocked=false yazılır
+
+  # ── Connector Aksiyonları ─────────────────────────────────────────────────────
+  actions:   # src/app/connectors/actions.ts
+    updateEurostatState(stateName):
+      reads:  states.json → eurostatGeo
+      writes: data/cache/eurostat.json[stateName]
+
+    updateOverpassState(stateName):
+      reads:  states.json → wikidataId + stateAdminLevel + cityAdminLevel
+      writes:
+        - data/cache/overpass.json[stateName]   # Ham OSM tesis listesi
+        - data/facilities.json                  # Merge (osm_id tabanlı)
+        - data/config/cities.json               # Auto-generated şehirler
+
+    updateStateOverpassConfig(stateName, wikidataId, stateAdminLevel, cityAdminLevel):
+      writes: states.json → wikidataId + stateAdminLevel + cityAdminLevel
+
+    updateCityCoords(citySlug, lat, lon):
+      writes: cities.json → lat + lon + coordsLocked=true
+
+    updateCityRadius(citySlug, radiusKm):
+      writes: cities.json → radiusKm
+
+  # ── Aşağıdan Yukarı Veri Akışı ───────────────────────────────────────────────
+  data_flow:
+    1_state_fetch:
+      trigger: Overpass Update (connectors sayfası)
+      input:   states.json (wikidataId + stateAdminLevel)
+      output:  overpass.json cache + facilities.json merge
+
+    2_city_generation:
+      trigger: Overpass Update (cityAdminLevel tanımlıysa)
+      input:   states.json (wikidataId + cityAdminLevel)
+      output:  cities.json (auto-generated şehirler)
+
+    3_eurostat_fetch:
+      trigger: Eurostat Update (connectors sayfası)
+      input:   states.json (eurostatGeo)
+      output:  eurostat.json cache
+
+    4_frontend:
+      user_selects_city:  CityContext → selectedCity
+      facility_filter:    haversineKm(city.lat/lon, facility.lat/lng) ≤ radiusKm
+      eurostat_display:   city.stateSlug → state.name → eurostat.json[state.name]
+
+  # ── Yeni State/Şehir Ekleme ───────────────────────────────────────────────────
+  add_new_state:
+    steps:
+      1: data/config/states.json'a yeni giriş ekle (wikidataId + stateAdminLevel + cityAdminLevel + eurostatGeo?)
+      2: /connectors → Eurostat Update (varsa eurostatGeo)
+      3: /connectors → Overpass Update → tesisler + şehirler otomatik eklenir
+      4: git add data/ && git commit && git push
+
+  add_new_city_manually:
+    steps:
+      1: data/config/cities.json'a ekle (lat/lon + radiusKm + stateSlug + source=manual)
+      2: Sayfa hemen /[lang]/cities/[slug] rotasında erişilebilir
+      3: Haversine otomatik bu şehirin tesislerini bulur
+
+  # ── v2'den Değişiklikler ──────────────────────────────────────────────────────
+  changes_from_v2:
+    removed_from_cities_json:
+      - eurostatGeo      → states.json'a taşındı
+      - eurostatRegionLabel → states.json'a taşındı
+      - wikidataId       → states.json'a taşındı
+      - adminLevel       → states.json'da stateAdminLevel + cityAdminLevel oldu
+
+    added_to_cities_json:
+      - stateSlug        → Eurostat/state bağlantısı için
+      - source           → manual | auto
+      - coordsLocked     → manuel koordinat koruma
+      - osm_id           → auto şehir güncelleme kimliği
+
+    function_signatures:
+      getFacilitiesByCity:
+        v2: (cityName: string) → f.city === cityName
+        v3: (citySlug: string) → haversine mesafe filtresi
+
+      getFacilitiesByDiseaseAndCity:
+        v2: (diseaseId, city: string) → f.city === city
+        v3: (diseaseId, citySlug: string) → getFacilitiesByCity(citySlug) + ICD filtre
+
+  # ── v2'den Korunan Mantıklar ──────────────────────────────────────────────────
+  preserved_from_v2:
+    - Overpass sorgu stratejisi (wikidata+adminLevel → wikidata → adminLevel → radius fallback)
+    - facilities.json merge kuralları (claimed:true → dokunulmaz, osm_id tabanlı)
+    - Speciality → ICD-11 mapping (statik map + LLM batch)
+    - Hospital wildcard (icd_chapters: ['*'])
+    - Healthcare fallback (dentist, physiotherapist vb. için ICD ataması)
+    - normalizeChapter / getIcdPrefix mantığı
+    - DENTAL custom prefix (DA0 → gastro çakışması engeli)
+    - dedup_key: "name|lat|lng"

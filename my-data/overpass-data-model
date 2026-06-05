@@ -1,0 +1,51 @@
+Medimapia_Health_Data:
+  types:
+    - points
+    - polygons
+  select:
+    # --- Temel Kimlik ve Tür Bilgileri ---
+    - amenity
+    - healthcare
+    - healthcare:speciality
+    - healthcare:specialty        # Yazım varyasyonu için eklendi
+    - name
+    - brand                      # Zincir hastaneler/klinikler için
+    
+    # --- İletişim ve Adres ---
+    - addr:full
+    - addr:city
+    - contact:phone
+    - contact:email
+    - url
+    - website
+    
+    # --- Operasyonel Detaylar ---
+    - operator
+    - operator:type              # public, private, ngo vb.
+    - operational_status         # Çalışma durumu
+    - opening_hours              # Çalışma saatleri
+    - emergency                  # Acil servis var mı? (yes/no)
+    
+    # --- Kapasite ve Personel ---
+    - beds                       # Yatak sayısı
+    - staff_count:doctors        # Doktor sayısı
+    - staff_count:nurses         # Hemşire sayısı
+    
+    # --- Donanım ve Hizmetler ---
+    - healthcare:equipment       # MR, Röntgen vb. cihazlar
+    - dispensing                 # İlaç dağıtımı/Eczane varlığı
+    - insurance:health           # Kabul edilen sigortalar
+    - wheelchair                 # Engelli erişimi (yes/no/limited)
+    
+    # --- Altyapı (Kritik/Afet Odaklı) ---
+    - water_source               # Su kaynağı
+    - electricity                # Elektrik durumu/Jeneratör
+    
+    # --- Veri Kaynağı ve Güvenilirlik ---
+    - source                     # Verinin kaynağı (Örn: Sağlık Bakanlığı, Saha çalışması)
+    - check_date                 # Son kontrol tarihi
+    - osm_id                     # OSM ile eşleştirme için (sistem tarafından otomatik gelir)
+
+  where: |
+    amenity IN ('hospital', 'clinic', 'doctors', 'dentist') 
+    OR healthcare IS NOT NULL

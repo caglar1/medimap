@@ -1,0 +1,127 @@
+Genel poliklinikler, acil servisler veya cerrahi müdahaleler yapan standart sağlık tesisleri veritabanı için bu V kodlarına ana sistemde (core system) ihtiyacın olmayacak. Klasik faturalandırma ve teşhis süreçleri kök kodlar (Örn: 6A70) üzerinden yürür.
+
+Ancak Medimapia'yı küresel bir haritaya dönüştürürken platforma Fizik Tedavi ve Rehabilitasyon Merkezleri, Özel Eğitim Merkezleri, Ergoterapi Klinikleri veya Yaşlı/Engelli Bakımevleri gibi niş alanları dahil etmek istersen, V kodları eşsiz bir mimari avantaj sağlar.
+
+Kullanıcılarına doğrudan hastalık adıyla değil, ihtiyaç duyulan desteğe göre (örneğin; "Hareket kabiliyeti - VW1" rehabilitasyonunda uzmanlaşmış tesisler veya "İletişim ve Konuşma Terapisi - VW0" sunan merkezler) filtreleme imkanı sunabilirsin. Eğer hedefinde böyle devasa ve detaylı bir rehabilitasyon/destek haritası kurgulamak varsa, bu V kodlarını ayrı bir functioning_assessments tablosunda saklamak Medimapia'nın arama motorunu rakipsiz kılabilir.
+
+
+ICD-11 VD00 Attention functions [WHODAS]
+ICD-11 VD01 Memory functions [WHODAS]
+ICD-11 VD02 Solving problems [WHODAS]
+ICD-11 VD03 Basic learning [WHODAS]
+ICD-11 VD04 Communicating with - receiving - spoken messages [WHODAS]
+ICD-11 VD05 Conversation [WHODAS]
+ICD-11 VD10 Maintaining a standing position [WHODAS]
+ICD-11 VD11 Changing body position - standing [WHODAS]
+ICD-11 VD12 Moving around within the home [WHODAS]
+ICD-11 VD13 Moving around outside the home and other buildings [WHODAS]
+ICD-11 VD14 Walking [WHODAS]
+ICD-11 VD20 Washing oneself [WHODAS]
+ICD-11 VD21 Dressing [WHODAS]
+ICD-11 VD22 Eating [WHODAS]
+ICD-11 VD23 Carrying out daily routine [WHODAS]
+ICD-11 VD30 Relating with strangers [WHODAS]
+ICD-11 VD31 Informal relationship with friends - maintaining [WHODAS]
+ICD-11 VD32 Family relationships [WHODAS]
+ICD-11 VD33 Informal relationship with friends - making new friends [WHODAS]
+ICD-11 VD34 Intimate relationships [WHODAS]
+ICD-11 VD40 Taking care of household responsibilities [WHODAS]
+ICD-11 VD41 Doing most important household tasks [WHODAS]
+ICD-11 VD42 Doing housework [WHODAS]
+ICD-11 VD43 Remunerative employment [WHODAS]
+ICD-11 VD50 Recreation and leisure [WHODAS]
+ICD-11 VD51 Problems by barriers [WHODAS]
+ICD-11 VD52 Human rights [WHODAS]
+ICD-11 VD53 Time spent on health condition [WHODAS]
+ICD-11 VD54 Emotional effect of health condition [WHODAS]
+ICD-11 VD55 Health drain on financial resources [WHODAS]
+ICD-11 VD56 Health problems causing family problems [WHODAS]
+ICD-11 VD57 Problems in relaxation or pleasure [WHODAS]
+ICD-11 VE00 Seeing and related functions [BMDS]
+ICD-11 VE01 Hearing and vestibular functions [BMDS]
+ICD-11 VE10 Energy and drive functions [BMDS]
+ICD-11 VE11 Sleep functions [BMDS]
+ICD-11 VE12 Emotional functions [BMDS]
+ICD-11 VE13 Attention functions [BMDS]
+ICD-11 VE14 Memory functions [BMDS]
+ICD-11 VE20 Sensation of pain [BMDS]
+ICD-11 VV00 Energy and drive functions
+ICD-11 VV01 Sleep functions
+ICD-11 VV02 Attention functions
+ICD-11 VV03 Memory functions
+ICD-11 VV04 Emotional functions
+ICD-11 VV0Y Other specified mental functions
+ICD-11 VV0Z Mental functions
+ICD-11 VV10 Seeing and related functions
+ICD-11 VV11 Hearing and vestibular functions
+ICD-11 VV12 Sensation of pain
+ICD-11 VV1Y Other specified sensory functions and pain
+ICD-11 VV1Z Sensory functions and pain
+ICD-11 VV20 Voice functions
+ICD-11 VV2Y Other specified voice and speech functions
+ICD-11 VV2Z Voice and speech functions
+ICD-11 VV30 Exercise tolerance functions
+ICD-11 VV3Y Other specified functions of the cardiovascular
+ICD-11 VV3Z Functions of the cardiovascular
+ICD-11 VV40 Functions related to the digestive system
+ICD-11 VV4Y Other specified functions of the digestive
+ICD-11 VV4Z Functions of the digestive
+ICD-11 VV50 Urination functions
+ICD-11 VV51 Sexual functions
+ICD-11 VV5Y Other specified genitourinary and reproductive functions
+ICD-11 VV5Z Genitourinary and reproductive functions
+ICD-11 VV60 Mobility of joint functions
+ICD-11 VV61 Muscle power functions
+ICD-11 VV6Y Other specified neuromusculoskeletal and movement-related functions
+ICD-11 VV6Z Neuromusculoskeletal and movement-related functions
+ICD-11 VV70 Functions of the skin
+ICD-11 VV7Y Other specified functions of the skin and related structures
+ICD-11 VV7Z Functions of the skin and related structures
+ICD-11 VV80 Basic learning
+ICD-11 VV81 Solving problems
+ICD-11 VV8Y Other specified learning and applying knowledge
+ICD-11 VV8Z Learning and applying knowledge
+ICD-11 VV90 Carrying out daily routine
+ICD-11 VV91 Handling stress and other psychological demands
+ICD-11 VV9Y Other specified general tasks and demands
+ICD-11 VV9Z General tasks and demands
+ICD-11 VW00 Communicating with - receiving - spoken messages
+ICD-11 VW01 Conversation
+ICD-11 VW0Y Other specified communication
+ICD-11 VW0Z Communication
+ICD-11 VW10 Maintaining a standing position
+ICD-11 VW11 Transferring oneself
+ICD-11 VW12 Carrying
+ICD-11 VW13 Walking
+ICD-11 VW14 Moving around within the home
+ICD-11 VW15 Moving around using equipment
+ICD-11 VW16 Using transportation
+ICD-11 VW1Y Other specified mobility
+ICD-11 VW1Z Mobility
+ICD-11 VW20 Washing oneself
+ICD-11 VW21 Caring for body parts
+ICD-11 VW22 Toileting
+ICD-11 VW23 Dressing
+ICD-11 VW24 Eating
+ICD-11 VW25 Looking after one's health
+ICD-11 VW2Y Other specified self-care
+ICD-11 VW2Z Self-care
+ICD-11 VW30 Preparing meals
+ICD-11 VW31 Doing housework
+ICD-11 VW32 Assisting others
+ICD-11 VW3Y Other specified domestic life
+ICD-11 VW3Z Domestic life
+ICD-11 VW40 Basic interpersonal interactions
+ICD-11 VW41 Relating with strangers
+ICD-11 VW42 Intimate relationships
+ICD-11 VW4Y Other specified interpersonal interactions and relationships
+ICD-11 VW4Z Interpersonal interactions and relationships
+ICD-11 VW50 Remunerative employment
+ICD-11 VW5Y Other specified major life areas
+ICD-11 VW5Z Major life areas
+ICD-11 VW60 Recreation and leisure
+ICD-11 VW61 Human rights
+ICD-11 VW6Y Other specified community
+ICD-11 VW6Z Community
+ICD-11 VW8Y Other specified generic functioning domains
+ICD-11 VW8Z Generic functioning domains

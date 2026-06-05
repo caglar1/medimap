@@ -1,0 +1,248 @@
+Medimapia_Health_Data_v2:
+
+  # --- Sorgu Yapısı ---
+  endpoints:
+    primary:   https://overpass-api.de/api/interpreter
+    fallback:  https://overpass.kumi.systems/api/interpreter
+  output: out center tags  # koordinat + tag'ler, geometri yok
+
+  # --- Element Tipleri ---
+  element_types: nwr   # node + way + relation (nwr kısaltması)
+  # Büyük hastaneler OSM'de çoğunlukla multipolygon relation — relation olmadan kaçırılır
+
+  # --- Sorgu Stratejisi ---
+  query_strategy:
+    priority:
+      1_wikidata_adminlevel:
+        selector: area["wikidata"="Q_KOD"]["admin_level"="N"]
+        timeout_server: 60s
+        timeout_client: 70s
+        note: >
+          En hızlı ve kesin. İki tag filtresi Overpass indexini daraltır.
+          Admin level, aynı wikidata'nın farklı sınır seviyelerinde
+          birden fazla relation barındırması sorununu engeller.
+          Örnek Berlin: area["wikidata"="Q64"]["admin_level"="4"]
+
+      2_wikidata_only:
+        selector: area["wikidata"="Q_KOD"]
+        timeout_server: 60s
+        timeout_client: 70s
+        note: adminLevel girilmemişse kullanılır
+
+      3_adminlevel_only:
+        selector: area["name"="CityName"]["admin_level"="N"]
+        timeout_server: 60s
+        timeout_client: 70s
+        note: wikidataId girilmemişse city adı + adminLevel ile sorgular
+
+      4_radius_fallback:
+        selector: around:radiusKm,lat,lng
+        timeout_server: 25s
+        timeout_client: 35s
+        note: >
+          Ne wikidataId ne adminLevel varsa Nominatim geocoding ile
+          koordinat alınır, radius çevresi sorgulanır.
+
+  # --- CityConfig Alanları (data/config/cities.json) ---
+  city_config_fields:
+    wikidataId:  string | undefined   # örn. "Q64" (Berlin), "Q84" (London)
+    adminLevel:  number | undefined   # örn. 4 (DE eyalet), 8 (belediye)
+    radiusKm:    number               # fallback için, default 20
+
+  # --- Filtre Katmanları ---
+  layers:
+
+    amenity:
+      values:
+        - hospital
+        - clinic
+        - doctors
+        - dentist
+        - health_centre
+
+    healthcare:
+      values:
+        - doctor
+        - clinic
+        - hospital
+        - dentist
+        - centre
+        - physiotherapist
+        - psychotherapist
+        - optometrist
+        - dialysis
+        - blood_bank
+        - nutrition_counselling
+        - rehabilitation
+        - hospice
+        - alternative
+        - vaccination_centre
+        - audiologist
+        - speech_therapist
+
+  # --- Alan Türetme Mantığı ---
+  derived_fields:
+
+    type:
+      logic: healthcare ?? amenity ?? 'clinic'
+      note: >
+        UI'da gösterim için birincil alan.
+        healthcare öncelikli (daha spesifik), yoksa amenity,
+        ikisi de yoksa 'clinic' default.
+      examples:
+        - healthcare=physiotherapist, amenity=clinic  →  type: "physiotherapist"
+        - healthcare yok,             amenity=hospital →  type: "hospital"
+        - healthcare yok,             amenity yok      →  type: "clinic"
+
+    amenity:
+      logic: amenity ?? 'no'
+      note: Raw OSM amenity tag değeri. Yoksa "no".
+
+    healthcare:
+      logic: healthcare ?? amenity ?? 'no'
+      note: >
+        Raw OSM healthcare tag değeri.
+        healthcare tag yoksa amenity değeri fallback olarak yazılır.
+        Her zaman dolu — UI'da type yerine bu alan tercih edilebilir.
+
+  # --- Çekilen Tag'ler ---
+  select:
+
+    # Kimlik ve Tür
+    - amenity                    # Raw OSM amenity değeri (yoksa "no")
+    - healthcare                 # Raw OSM healthcare değeri (yoksa amenity fallback)
+    - name
+
+    # Speciality (fallback zinciri)
+    - healthcare:speciality      # Öncelikli
+    - healthcare:specialty       # Yazım varyasyonu fallback
+
+    # İletişim
+    - phone
+    - contact:phone              # phone yoksa fallback
+    - email
+    - contact:email              # email yoksa fallback
+    - website
+    - contact:website            # website yoksa fallback
+    - url                        # contact:website de yoksa fallback
+
+    # Adres (fallback zinciri)
+    - addr:full                  # Öncelikli — tam adres tek alanda
+    - addr:street                # addr:full yoksa parçalardan birleştirilir
+    - addr:housenumber
+    - addr:city
+
+    # Operasyonel
+    - operator
+    - operator:type              # public / private / ngo / religious vb.
+    - operational_status
+    - opening_hours              # Tam string ("Mo-Fr 08:00-18:00" veya "24/7")
+    - emergency                  # yes/no → boolean
+
+    # Kurumsal
+    - brand                      # Zincir tesis adı
+
+    # Kapasite
+    - beds                       # Yatak sayısı → integer
+    - staff_count:doctors        # Doktor sayısı → integer
+    - staff_count:nurses         # Hemşire sayısı → integer
+
+    # Donanım ve Hizmetler
+    - healthcare:equipment       # "mri;xray;ultrasound" → string[]
+    - dispensing                 # yes → boolean (eczane hizmeti)
+    - insurance:health           # Kabul edilen sigorta
+
+    # Erişilebilirlik
+    - wheelchair                 # yes / no / limited
+
+    # Veri Kalitesi
+    - check_date                 # Son doğrulama tarihi
+    - source                     # Veri kaynağı
+
+  # --- Duplicate Koruması ---
+  dedup_key: "name|lat|lng"     # Aynı tesis amenity + healthcare katmanından iki kez gelebilir
+
+  # --- Speciality → ICD-11 Mapping ---
+  # Çekilen speciality string'leri → src/lib/speciality-resolver.ts
+  # Statik map (İngilizce terimler) → src/lib/speciality-map.ts
+  # Bilinmeyenler LLM'e batch gönderilir (OpenRouter / Anthropic)
+  # Sonuç: Facility.icd_chapters (ICD-11 chapter prefix char dizisi)
+  #
+  # Sub-chapter prefix splits (karışık chapter'lar için):
+  #   Chapter G → GA (female genital), GB (kidney/male genital), GC (urinary)
+  #   Chapter C → CA0 (upper resp/ENT), CA2/CA4/CA6/CA7/CA8/CB (lower resp/pulmonoloji)
+  #   Chapter A → A (sadece kulak); ENT tesisleri: ['A', 'CA0']
+  #
+  # Deduplication: parent prefix, child varsa atılır
+  #   ['G', 'GA', 'GB'] → ['GA', 'GB']
+  #   ['C', 'CA0', 'CA2'] → ['CA0', 'CA2']
+
+  # --- Genel Hastane Kuralı (Any Wildcard) ---
+  any_hospital_rule:
+    trigger:
+      type: hospital       # amenity=hospital veya healthcare=hospital kaynaklı
+      specialities: []     # OSM'den hiç speciality tag'i gelmediyse (boş veya eksik)
+    result:
+      specialities: ["any"]   # meta-speciality; OSM kökenli değil, Medimapia iç değeri
+      icd_chapters: ["*"]     # wildcard; tüm ICD-11 chapter'larıyla eşleşir
+    not_applied_when: >
+      Hastanede bir veya daha fazla speciality mevcutsa kural uygulanmaz —
+      zaten belirlenmiş uzmanlık alanları korunur.
+    rationale: >
+      Genel hastaneler tüm branşlara hizmet verir.
+      icd_chapters boş kalırsa hastalık sayfalarında hiç görünmezler.
+      "*" wildcard, hastalık filtresi uygulansın ya da uygulanmasın
+      bu hastanelerin her zaman sonuçlara dahil edilmesini sağlar.
+    filtering_logic: >
+      src/lib/data.ts — getFacilitiesByDisease / getFacilitiesByDiseaseAndCity:
+        prefix = getIcdPrefix(disease.icd11_code)   # G→2char, CA→3char, CB→2char, diğer→1char
+        f.icd_chapters?.some(ch => prefix.startsWith(ch) || ch.startsWith(prefix))
+          || f.icd_chapters?.includes('*')
+    applied_in:
+      - connector_update: src/app/connectors/actions.ts (Overpass güncelleme akışında)
+      - backfill:         data/facilities.json (mevcut tesislere tek seferlik uygulandı)
+
+  # --- Healthcare Tag Fallback (icd_chapters) ---
+  healthcare_icd_fallback:
+    trigger: >
+      f.icd_chapters boş VE f.healthcare aşağıdaki değerlerden biri
+    values:
+      dentist:             ['DENTAL']
+      physiotherapist:     ['F', 'V']
+      optometrist:         ['9']
+      alternative:         ['S']
+      psychotherapist:     ['6']
+      vaccination_centre:  ['1', 'Q']
+      audiologist:         ['A']
+      dialysis:            ['GB']
+      speech_therapist:    ['6', 'A']
+    behavior: >
+      f.icd_chapters = osmSpecialitiesToIcdPrefixes([f.healthcare])
+      f.specialities = [f.healthcare]  (specialities de boşsa)
+    rationale: >
+      healthcare:speciality tag'i koymayan ama healthcare= tag'i olan
+      tesisler (fizyoterapist, optometrist vb.) ICD chapter'sız kalır.
+      Bu fallback, türü bilinen tesislere otomatik ICD ataması yapar.
+    applied_in: src/app/connectors/actions.ts (Overpass güncelleme akışında)
+    NOT: Statik map + LLM resolution'dan SONRA, hospital wildcard'dan ÖNCE çalışır.
+
+  # --- DENTAL ICD Eşleme Akışı ---
+  dental_icd_matching:
+    icd11_chapter: DA   # Diseases of the oral cavity or salivary glands (ICD-11 alt bölümü D)
+    custom_prefix: DENTAL
+    mapping_location: src/lib/data.ts — getIcdPrefix()
+    rule: >
+      if (code.startsWith('DA0')) return 'DENTAL'
+      // DA0x = oral/dental diseases
+      // DA1x+ = oesophagus/stomach → stays 'D' (gastro)
+    rationale: >
+      DA, D (Digestive) chapter'ının alt kodu. 'DA' doğrudan kullanılırsa
+      matchesPrefix(['D'], 'DA') = true → gastro tesisler de dental hastalıklara
+      eşleşirdi. 'DENTAL' custom prefix ile bu çakışma önlenir:
+        'D'.startsWith('DENTAL') = false
+        'DENTAL'.startsWith('D') = false
+    flow: >
+      diseases.json: icd11_code = 'DA00.0'
+        → getIcdPrefix('DA00.0') → 'DENTAL'
+        → matchesPrefix(facility.icd_chapters, 'DENTAL')
+        → facility.icd_chapters = ['DENTAL'] → true ✓

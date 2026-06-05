@@ -1,0 +1,50 @@
+{
+  "Berlin": {
+    "data": {
+      "city": "Berlin",
+      "year": 2024,
+      "lifeExpectancy": {
+        "total": 78.2,
+        "male": 75.5,
+        "female": 80.8
+      },
+      "hospitalBedsPer100k": null,
+      "povertyRate": 17.7,
+      "population65Plus": null,
+      "causeOfDeathRates": {
+        "I": 320.61,
+        "E10_E14": null,
+        "J": 75.5,
+        "F": 20.77
+      },
+      "source": "eurostat",
+      "eurostatGeo": "DE30",
+      "regionLabel": null
+    },
+    "updatedAt": "2026-05-12T08:43:38.038Z"
+  },
+  "Barcelona": {
+    "data": {
+      "city": "Barcelona",
+      "year": 2024,
+      "lifeExpectancy": {
+        "total": 77.2,
+        "male": 73.5,
+        "female": 80.8
+      },
+      "hospitalBedsPer100k": 30385,
+      "povertyRate": 15.8,
+      "population65Plus": null,
+      "causeOfDeathRates": {
+        "I": 223.97,
+        "E10_E14": null,
+        "J": 81.58,
+        "F": 42.76
+      },
+      "source": "eurostat",
+      "eurostatGeo": "ES51",
+      "regionLabel": "Catalonia region"
+    },
+    "updatedAt": "2026-05-12T08:44:04.417Z"
+  }
+}

@@ -1,0 +1,48 @@
+4. ABD İçin "Güvenilir Veri" Stratejisi
+
+Eğer ABD'de güvenilir ve onaylı bir harita sunmak istiyorsanız, filtreleme mimarisini Avrupa'dan farklı kurgulamanız gerekir. Avrupa'da healthcare iyi bir kalite süzgeciyken, ABD'de şu yöntemi izlemek daha kesin sonuç verir:
+
+amenity=hospital veya healthcare=hospital olanları çek, ancak yalnızca şu etiketlerden en az birine sahip olanları "Güvenilir (Verified)" olarak işaretle:
+
+    gnis:feature_id=*: ABD'nin resmi coğrafi kayıt numarası. (ABD verilerinde çok yaygındır).
+
+    ref:npi=*: (National Provider Identifier) Doğrudan ABD resmi sağlık sistemi kayıt numarası.
+
+    wikidata=*: Wikipedia'nın veri tabanı kimliği. (Büyük hastanelerin çoğunda bulunur).
+
+Bu yaklaşım, eski ama doğru olan milyonlarca satır ABD verisini kaybetmeden, kalite kontrolünü devletin veya uluslararası veritabanlarının kimlik numaraları üzerinden yapmanızı sağlar.
+
+
+--------
+Kısa cevap: Hayır, ABD'de klinikler (clinic) ve doktorlar (doctors) için sadece healthcare kullanmak, haritanın neredeyse %85'inin boş kalmasına neden olur. Hastanelerdeki o büyük fark, bu küçük tesislerde çok daha dramatik boyutlardadır.
+
+İşte ABD'deki klinik ve doktor verisi için izlemen gereken yol haritası:
+1. ABD'de Klinik ve Doktor Etiketlerinin Gerçekliği
+
+Hastaneler (hospital) geçmişte devasa bir devlet veritabanı (GNIS) aktarımıyla OSM'ye gelmişti. Ancak doktor muayenehaneleri ve küçük klinikler yıllar içinde sivil kullanıcılar, yerel rehberler veya işletme sahiplerinin kendileri tarafından parça parça eklendi.
+
+Bu kişiler genellikle standart harita düzenleyicilerinin (iD editor) varsayılan ayarlarını kullandıkları için verilerin ezici çoğunluğu amenity=clinic ve amenity=doctors olarak kaldı. healthcare şeması, ABD'deki bu küçük ölçekli işletmelere henüz tam anlamıyla nüfuz edemedi.
+2. ABD İçin "Altın Standart": NPI (National Provider Identifier)
+
+Sadece healthcare kullanmak veri kaybı yaratacağından, ABD pazarında onay ve güvenilirlik (verification) için etiket adından ziyade tıbbi kimlik numaralarına odaklanmalısın. ABD'de sağlık sisteminin kalbi NPI numarasıdır. Sigorta kesebilmek ve yasal olarak çalışabilmek için her klinik ve doktorun bu 10 haneli numaraya sahip olması zorunludur.
+
+OSM'de bu veri ref:npi=* etiketiyle tutulur. Bu, ABD haritası için senin en büyük gizli silahındır.
+3. İdeal Veri Mimarisinin Kurulumu
+
+Eğer Supabase gibi bir ilişkisel veritabanı kurguluyor ve verileri n8n benzeri bir otomasyonla işliyorsan, ABD için akışı şu şekilde kurman kusursuz bir kalite kontrol sağlar:
+
+    Geniş Ağ (Ingestion): Sorguyu amenity=clinic VEYA amenity=doctors VEYA healthcare=clinic VEYA healthcare=doctor şeklinde atıp hepsini içeri al.
+
+    Otomatik Doğrulama (Verification Akışı): İçeri akan verilerde şu mantıksal kontrolü yap:
+
+        Eğer üzerinde ref:npi etiketi varsa -> Doğrudan "Onaylı" (Verified) yap ve canlı haritana al. (Çünkü bu numarayı OSM'ye giren kişi yüksek ihtimalle çok bilinçli bir haritacıdır veya veriyi resmi CMS veri tabanından çapraz doğrulamıştır).
+
+        Eğer ref:npi yok ama resmi bir website veya gnis:feature_id varsa -> İkinci seviye güvenilir olarak işaretle.
+
+        Hiçbiri yoksa (sadece ismi ve konumu girilmişse) -> "İnceleme Bekliyor" (Pending) statüsünde tut ve manuel kontrole düşür.
+
+Avrupa ile ABD Arasındaki Vizyon Farkı
+
+Avrupa kıtasını haritalarken healthcare etiketinin varlığı muazzam bir filtre ve kalite süzgeciyken; iş ABD muayenehanelerine geldiğinde ref:npi ve website varlığı senin asıl "kalite süzgecin" olmalıdır.
+
+Bu verileri çekerken, özellikle ABD'deki doktorların uzmanlık alanlarını (healthcare:speciality) eksik bulduğun durumlarda, NPI numarası üzerinden harici bir Amerikan sağlık API'si ile veritabanını zenginleştirmeyi planlıyor musun?

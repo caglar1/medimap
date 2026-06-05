@@ -1,0 +1,74 @@
+{
+  "id": "depression",
+  "slug": {
+    "en": "depression",
+    "de": "depression",
+    "es": "depresion"
+  },
+  "icd11_code": "6A70",
+  "medlineplus_url": "https://medlineplus.gov/depression.html",
+  "category": "mental_health",
+  "severity": "variable",
+  "prevalence_percent": 5,
+  "tags": [
+    "chronic",
+    "treatable",
+    "common"
+  ],
+  "name": {
+    "en": "Depression",
+    "de": "Depression",
+    "es": "Depresión"
+  },
+  "summary": {
+    "en": "Depression (major depressive disorder) is a common and serious medical illness that negatively affects how you feel, the way you think and how you act. It causes feelings of sadness and/or a loss of interest in activities you once enjoyed. It can lead to a variety of emotional and physical problems and can decrease your ability to function at work and at home. Depression affects an estimated one in 15 adults (6.7%) in any given year.",
+    "de": "Depression (Major Depression) ist eine häufige und ernste Erkrankung, die sich negativ darauf auswirkt, wie Sie sich fühlen, wie Sie denken und wie Sie handeln. Sie verursacht Gefühle der Traurigkeit und/oder einen Interessenverlust an Aktivitäten, die Ihnen früher Freude bereitet haben.",
+    "es": "La depresión (trastorno depresivo mayor) es una enfermedad médica común y grave que afecta negativamente cómo te sientes, cómo piensas y cómo actúas. Causa sentimientos de tristeza y/o una pérdida de interés en actividades que antes disfrutabas."
+  },
+  "symptoms": {
+    "en": [
+      "Persistent sadness",
+      "Loss of interest",
+      "Fatigue",
+      "Sleep disturbances",
+      "Difficulty concentrating",
+      "Feelings of worthlessness"
+    ],
+    "de": [
+      "Anhaltende Traurigkeit",
+      "Interessenverlust",
+      "Müdigkeit",
+      "Schlafstörungen",
+      "Konzentrationsschwierigkeiten",
+      "Gefühle der Wertlosigkeit"
+    ],
+    "es": [
+      "Tristeza persistente",
+      "Pérdida de interés",
+      "Fatiga",
+      "Alteraciones del sueño",
+      "Dificultad para concentrarse",
+      "Sentimientos de inutilidad"
+    ]
+  },
+  "routing_departments": [
+    {
+      "department_code": "6",
+      "is_primary": true,
+      "clinical_role": {
+        "en": "Psychotherapeutic counseling, cognitive behavioral therapy (CBT), and mental health support.",
+        "de": "Psychotherapeutische Beratung, kognitive Verhaltenstherapie (KVT) und Unterstützung der psychischen Gesundheit.",
+        "es": "Asesoramiento psicoterapéutico, terapia cognitivo-conductual (TCC) y apoyo a la salud mental."
+      }
+    },
+    {
+      "department_code": "M",
+      "is_primary": false,
+      "clinical_role": {
+        "en": "Ruling out organic/hormonal causes, general wellness checks, and medication co-management.",
+        "de": "Ausschluss organischer/hormoneller Ursachen, allgemeine Wellness-Checks und medikamentöse Co-Therapie.",
+        "es": "Descarte de causas orgánicas/hormonales, chequeos de bienestar general y cogestión de medicamentos."
+      }
+    }
+  ]
+}

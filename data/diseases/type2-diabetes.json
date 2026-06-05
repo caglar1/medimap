@@ -1,0 +1,74 @@
+{
+  "id": "type2-diabetes",
+  "slug": {
+    "en": "type2-diabetes",
+    "de": "typ-2-diabetes",
+    "es": "diabetes-tipo-2"
+  },
+  "icd11_code": "5A11",
+  "medlineplus_url": "https://medlineplus.gov/diabetestype2.html",
+  "category": "metabolic",
+  "severity": "moderate",
+  "prevalence_percent": 10,
+  "tags": [
+    "chronic",
+    "lifestyle",
+    "common"
+  ],
+  "name": {
+    "en": "Type 2 Diabetes",
+    "de": "Typ-2-Diabetes",
+    "es": "Diabetes tipo 2"
+  },
+  "summary": {
+    "en": "Type 2 diabetes is a chronic condition that affects the way the body processes blood sugar (glucose). With type 2 diabetes, the body either doesn't produce enough insulin, or it doesn't use insulin properly. Type 2 diabetes is more common in adults and accounts for around 90% of all diabetes cases. It is strongly linked to obesity, physical inactivity, and genetics.",
+    "de": "Typ-2-Diabetes ist eine chronische Erkrankung, die die Art und Weise beeinflusst, wie der Körper Blutzucker (Glukose) verarbeitet. Der Körper produziert entweder nicht genug Insulin oder er verwendet es nicht richtig. Typ-2-Diabetes ist bei Erwachsenen häufiger und macht etwa 90 % aller Diabetesfälle aus.",
+    "es": "La diabetes tipo 2 es una condición crónica que afecta la forma en que el cuerpo procesa el azúcar en sangre (glucosa). Con la diabetes tipo 2, el cuerpo no produce suficiente insulina o no la usa correctamente. Es más común en adultos y representa al menos el 90% de todos los casos de diabetes."
+  },
+  "symptoms": {
+    "en": [
+      "Frequent urination",
+      "Excessive thirst",
+      "Fatigue",
+      "Blurred vision",
+      "Slow-healing wounds",
+      "Numbness in hands/feet"
+    ],
+    "de": [
+      "Häufiges Wasserlassen",
+      "Übermäßiger Durst",
+      "Müdigkeit",
+      "Verschwommenes Sehen",
+      "Langsame Wundhealung",
+      "Taubheitsgefühl in Händen/Füßen"
+    ],
+    "es": [
+      "Micción frecuente",
+      "Sed excesiva",
+      "Fatiga",
+      "Visión borrosa",
+      "Heridas de cicatrización lenta",
+      "Entumecimiento en manos/pies"
+    ]
+  },
+  "routing_departments": [
+    {
+      "department_code": "5",
+      "is_primary": true,
+      "clinical_role": {
+        "en": "Advanced endocrine guidance, blood sugar optimization, and hormone management.",
+        "de": "Fortgeschrittene endokrine Beratung, Blutzuckeroptimierung und Hormonmanagement.",
+        "es": "Guía endocrina avanzada, optimización de azúcar en sangre y manejo hormonal."
+      }
+    },
+    {
+      "department_code": "M",
+      "is_primary": false,
+      "clinical_role": {
+        "en": "Primary blood sugar screening, lifestyle counseling, and metabolic monitoring.",
+        "de": "Primäres Blutzucker-Screening, Lebensstilberatung und Stoffwechselüberwachung.",
+        "es": "Monitoreo de azúcar en sangre primario, asesoramiento sobre estilo de vida y control metabólico."
+      }
+    }
+  ]
+}

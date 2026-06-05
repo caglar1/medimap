@@ -1,0 +1,19 @@
+# Bağımlılıklar
+node_modules/
+
+# Next.js build
+.next/
+out/
+
+# TypeScript build cache
+tsconfig.tsbuildinfo
+next-env.d.ts
+
+# Büyük lock dosyası
+package-lock.json
+
+# Gizli bilgiler
+.env*.local
+
+# Git metadata
+.git/

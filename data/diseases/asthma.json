@@ -1,0 +1,74 @@
+{
+  "id": "asthma",
+  "slug": {
+    "en": "asthma",
+    "de": "asthma",
+    "es": "asma"
+  },
+  "icd11_code": "CA23",
+  "medlineplus_url": "https://medlineplus.gov/asthma.html",
+  "category": "respiratory",
+  "severity": "moderate",
+  "prevalence_percent": 7,
+  "tags": [
+    "chronic",
+    "allergy-related",
+    "common"
+  ],
+  "name": {
+    "en": "Asthma",
+    "de": "Asthma",
+    "es": "Asma"
+  },
+  "summary": {
+    "en": "Asthma is a condition in which your airways narrow and swell and may produce extra mucus. This can make breathing difficult and trigger coughing, a whistling sound (wheezing) when you breathe out and shortness of breath. For some people, asthma is a minor nuisance. For others, it can be a major problem that interferes with daily activities and may lead to a life-threatening asthma attack.",
+    "de": "Asthma ist eine Erkrankung, bei der sich Ihre Atemwege verengen und anschwellen und möglicherweise zusätzlichen Schleim produzieren. Dies kann das Atmen erschweren und Husten, ein Pfeifgeräusch (Keuchen) beim Ausatmen und Kurzatmigkeit auslösen.",
+    "es": "El asma es una afección en la que las vías respiratorias se estrechan e inflaman y pueden producir moco adicional. Esto puede dificultar la respiración y provocar tos, un sonido de silbido (sibilancias) al exhalar y falta de aire."
+  },
+  "symptoms": {
+    "en": [
+      "Wheezing",
+      "Coughing",
+      "Shortness of breath",
+      "Chest tightness",
+      "Difficulty sleeping",
+      "Rapid breathing"
+    ],
+    "de": [
+      "Keuchen",
+      "Husten",
+      "Kurzatmigkeit",
+      "Brustenge",
+      "Schlafstörungen",
+      "Schnelles Atmen"
+    ],
+    "es": [
+      "Sibilancias",
+      "Tos",
+      "Dificultad para respirar",
+      "Opresión en el pecho",
+      "Dificultad para dormir",
+      "Respiración rápida"
+    ]
+  },
+  "routing_departments": [
+    {
+      "department_code": "C",
+      "is_primary": true,
+      "clinical_role": {
+        "en": "Detailed lung function tests (spirometry), personalized inhaler therapy, and chronic asthma control.",
+        "de": "Detaillierte Lungenfunktionstests (Spirometrie), personalisierte Inhalationstherapie und chronische Asthmakontrolle.",
+        "es": "Pruebas de función pulmonar detalladas (espirometría), terapia con inhaladores personalizada y control del asma crónico."
+      }
+    },
+    {
+      "department_code": "4",
+      "is_primary": false,
+      "clinical_role": {
+        "en": "Identifying allergic triggers, immunotherapy, and allergy-induced asthma management.",
+        "de": "Identifizierung allergischer Auslöser, Immuntherapie und Behandlung von allergiebedingtem Asthma.",
+        "es": "Identificación de desencadenantes alérgicos, inmunoterapia y manejo del asma inducido por alergias."
+      }
+    }
+  ]
+}

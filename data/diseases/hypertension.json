@@ -1,0 +1,74 @@
+{
+  "id": "hypertension",
+  "slug": {
+    "en": "hypertension",
+    "de": "bluthochdruck",
+    "es": "hipertension"
+  },
+  "icd11_code": "BA80",
+  "medlineplus_url": "https://medlineplus.gov/highbloodpressure.html",
+  "category": "cardiovascular",
+  "severity": "moderate",
+  "prevalence_percent": 33,
+  "tags": [
+    "chronic",
+    "preventable",
+    "common"
+  ],
+  "name": {
+    "en": "Hypertension",
+    "de": "Bluthochdruck",
+    "es": "Hipertensión arterial"
+  },
+  "summary": {
+    "en": "High blood pressure (hypertension) is a common condition in which the long-term force of the blood against your artery walls is high enough that it may eventually cause health problems, such as heart disease. Blood pressure is determined both by the amount of blood your heart pumps and the amount of resistance to blood flow in your arteries. Often called the 'silent killer' because it rarely causes symptoms until serious damage has occurred.",
+    "de": "Bluthochdruck (Hypertonie) ist ein häufiger Zustand, bei dem der langfristige Druck des Blutes gegen Ihre Arterienwände hoch genug ist, um möglicherweise Gesundheitsprobleme wie Herzerkrankungen zu verursachen. Er wird oft als 'stiller Killer' bezeichnet, da er selten Symptome verursacht, bis ernsthafter Schaden entstanden ist.",
+    "es": "La presión arterial alta (hipertensión) es una condición común en la que la fuerza a largo plazo de la sangre contra las paredes de sus arterias es lo suficientemente alta como para eventualmente causar problemas de salud, como enfermedades cardíacas. A menudo se le llama el 'asesino silencioso' porque rara vez causa síntomas hasta que se ha producido un daño grave."
+  },
+  "symptoms": {
+    "en": [
+      "Headache",
+      "Dizziness",
+      "Shortness of breath",
+      "Chest pain",
+      "Blurred vision",
+      "Nosebleeds"
+    ],
+    "de": [
+      "Kopfschmerzen",
+      "Schwindel",
+      "Kurzatmigkeit",
+      "Brustschmerzen",
+      "Verschwommenes Sehen",
+      "Nasenbluten"
+    ],
+    "es": [
+      "Dolor de cabeza",
+      "Mareos",
+      "Dificultad para respirar",
+      "Dolor en el pecho",
+      "Visión borrosa",
+      "Hemorragias nasales"
+    ]
+  },
+  "routing_departments": [
+    {
+      "department_code": "B",
+      "is_primary": true,
+      "clinical_role": {
+        "en": "Expert cardiology consultation, blood pressure monitoring, and cardiovascular risk assessment.",
+        "de": "Kardiologische Fachberatung, Blutdrucküberwachung und kardiovaskuläre Risikobewertung.",
+        "es": "Consulta cardiológica experta, monitoreo de presión arterial y evaluación de riesgo cardiovascular."
+      }
+    },
+    {
+      "department_code": "M",
+      "is_primary": false,
+      "clinical_role": {
+        "en": "General diagnostic screening, medication adjustments, and routine physical exams.",
+        "de": "Allgemeine diagnostische Vorsorgeuntersuchung, Medikamentenanpassung und routinemäßige körperliche Untersuchungen.",
+        "es": "Examen de diagnóstico general, ajustes de medicación y exámenes físicos de rutina."
+      }
+    }
+  ]
+}

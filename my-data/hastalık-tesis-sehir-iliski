@@ -1,0 +1,61 @@
+# Hastalık ↔ Tesis ↔ Şehir İlişkisi
+
+## Veri Akışı
+
+```
+OSM (healthcare:speciality)
+  → src/lib/speciality-map.ts (OSM_TO_ICD_PREFIX)
+  → facility.icd_chapters: raw prefix ('GA', 'CA2', 'DA0', 'QA1')
+  → facilities.json
+```
+
+## Eşleştirme Mantığı
+
+### Hastalık Sayfası — `/[lang]/disease/[slug]`
+- `getFacilitiesByDisease` → `matchesPrefix` (data.ts)
+- Her iki taraf `normalizeChapter`'dan geçer → exact match
+- DA0 ile başlayanlar D ile başlayanlara karışmaz (ve tersi)
+- QA1 ile başlayanlar Q ile başlayanlara karışmaz (ve tersi)
+
+### Hastalık + Şehir Sayfası — `/[lang]/disease/[slug]/[city]`
+- `getFacilitiesByDiseaseAndCity` → aynı `matchesPrefix` mantığı
+- Şehir filtresi sadece tesisin `city` alanına bakar
+
+### Şehir Sayfası — `/[lang]/cities/[city]`
+- **Chip display:** `getIcdChaptersByCity` → `normalizeChapter` → chip sayacı
+- **Hastalık listesi:** `getDiseasesForCity` → normalize + exact match
+- **Pin filtresi:** server'da `normalizeChapter` ile normalize edilmiş tesisler → client'ta `chs.includes(chapter)`
+
+## Tek Kaynak Kural — `normalizeChapter` (data.ts:39)
+
+Tüm eşleştirme akışları (chip display, disease matching, pin filter) **tek bir fonksiyon** üzerinden geçer:
+
+| Ham prefix | normalize sonucu | Açıklama |
+|---|---|---|
+| `GA` | `J` | Jinekoloji → Obstetrics & Gynecology chip |
+| `CA0` | `A` | Üst solunum → ENT chip |
+| `GB`, `GC` | `G` | Üroloji/Nefroloji fallback |
+| `CA2…CB` | `C` | Pulmonology fallback |
+| `DA0` | `DA0` | Diş (ICD-11 gerçek alt-kodu) |
+| `QA1` | `QA1` | Estetik (ICD-11 gerçek alt-kodu) |
+
+## Yeni Özel Durum Eklerken — Karar Matrisi
+
+| Senaryo | data.ts | speciality-map.ts |
+|---|:---:|:---:|
+| Chip merge kuralı (GA→J gibi) | ✓ `normalizeChapter` | — |
+| Yeni chip label/ikon | ✓ `ICD_CHAPTER_LABELS` | — |
+| Yeni disease ICD prefix (DA0, QA1 gibi) | ✓ `getIcdPrefix` + `ICD_CHAPTER_LABELS` | tesise yansıması istenirse ✓ |
+| Yeni OSM speciality terimi | — | ✓ `OSM_TO_ICD_PREFIX` |
+| Mevcut OSM terim → farklı prefix | — | ✓ |
+
+**Pratik:**
+- Chip ve hastalık matching → sadece **data.ts** yeterli
+- Yeni OSM terimi yakalama → **speciality-map.ts** şart
+
+## Önemli Notlar
+
+- `startsWith` kullanılmaz — `DA0.startsWith('D')` ve `QA1.startsWith('Q')` yanlış eşleşmelere yol açıyordu, bu yüzden exact match'e geçildi
+- `facilities.json`'da `icd_chapters` raw olarak saklanır, normalize sadece query/display zamanında yapılır
+- Daha önce kullanılan `DENTAL` uydurma prefix'i kaldırıldı, ICD-11'in gerçek alt-kodu `DA0` ile değiştirildi
+- Detaylı tablo ve özel kurallar: `my-data/health-specialities.md`

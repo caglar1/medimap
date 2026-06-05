@@ -1,0 +1,18 @@
+https://taginfo.openstreetmap.org/keys/healthcare%3Aspeciality#values
+buradaki değerler ile lib/speciality-map.ts teki değerler karşılakştırılıp yazılacak 
+
+
+
+
+ek Bilgi------
+https://wiki.openstreetmap.org/wiki/Global_Healthsites_Mapping_Project#Data_Model
+data model var
+
+https://tr.distance.to  kuş uçuşu mesafe hesaplar
+
+https://export.hotosm.org/  osm den export eder
+
+https://mapshaper.org/  harita üstünde geo noktaları gösterir ve geojson olarak export edebilirsin
+
+plastik cerahi için ayrı bölüm oluştur ve gerekli alt alanları ona ata, dental gibi
+
